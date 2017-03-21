@@ -69,7 +69,7 @@ void junction_stop_at (int val)
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 0;
 
-	while (getGyroDegrees (gyroSensor) < 180);
+	while (getGyroDegrees (gyroSensor) < 170);
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
@@ -116,6 +116,16 @@ void junction_stop_at (int val)
 
 /* Path. */
 
+void path_begin ()
+{
+	// Search for blue dot.
+
+	motor[leftMotor]  = 30;
+	motor[rightMotor] = 30;
+
+	while (getColorName (colorSensor) != colorBlue);
+}
+
 TLegoColors path_walk ()
 {
 	bool left_dominant = true;
@@ -127,21 +137,21 @@ TLegoColors path_walk ()
 	{
 		TLegoColors col = getColorName (colorSensor);
 
-		if ((col == colorBlue) || (col == colorYellow) || (col == colorGreen))
-			return col;
-		else
 		if (col == colorBlack)
 		{
 			motor[leftMotor]  = 30;
 			motor[rightMotor] = 10;
 		}
 		else
+		if (col == colorWhite)
 		{
 			motor[leftMotor]  = 10;
 			motor[rightMotor] = 30;
 		}
+		else
+			return col;
 
-		delay (100);
+		delay (10);
 	}
 
 	motor[leftMotor]  = 0;
@@ -152,12 +162,7 @@ TLegoColors path_walk ()
 
 task main ()
 {
-	// Search for blue dot.
-
-	motor[leftMotor]  = 30;
-	motor[rightMotor] = 30;
-
-	while (getColorName (colorSensor) != colorBlue);
+	path_begin ();
 
 	junction_prepare ();
 	junction_stop_at (0);
@@ -172,9 +177,10 @@ task main ()
 	junction_prepare ();
 	junction_stop_at (0);
 
-	//while (color_get_val () != COLOR_BLUE);
+	path_walk ();
 
-	// Scan node.
+	junction_prepare ();
+	junction_stop_at (1);
 
-	//tile_scan ();
+	path_walk ();
 }
