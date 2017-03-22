@@ -7,7 +7,7 @@
  *
  * Implementation: Move robot forward a little.
  */
-void Actions_Junction_prepare ()
+void Actions_Junction_begin ()
 {
 	// Centerize.
 
@@ -26,7 +26,7 @@ void Actions_Junction_prepare ()
  * @brief Count available paths from a junction.
  * @returns  Count of available paths.
  *
- * %Actions_Junction_prepare must be called before calling this function.
+ * %Actions_Junction_begin must be called before calling this function.
  * Implementation: Rotate 360 degrees and count for black-white edges.
  */
 int Actions_Junction_count ()
@@ -76,7 +76,7 @@ int Actions_Junction_count ()
  * @brief Rotate and stop at specified way from a junction.
  * @param _id  Way number.
  *
- * %Actions_Junction_prepare must be called before calling this function.
+ * %Actions_Junction_begin must be called before calling this function.
  * Implementation: Rotate 170 degrees then stop at specified black-white edges.
  */
 void Actions_Junction_stopAt (int _id)
@@ -90,7 +90,7 @@ void Actions_Junction_stopAt (int _id)
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 0;
 
-	while (getGyroDegrees (gyroSensor) < 170);
+	while (getGyroDegrees (gyroSensor) < 170) {}
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
@@ -153,7 +153,7 @@ void Actions_Path_begin ()
 
 	// Stop at blue.
 
-	while (getColorName (colorSensor) != colorBlue);
+	while (getColorName (colorSensor) != colorBlue) {}
 }
 
 /**
@@ -194,67 +194,69 @@ TLegoColors Actions_Path_walk ()
 
 /* Main. */
 
+/*
 task main ()
 {
 	Actions_Path_begin ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (0);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (0);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (0);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (0);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (0);
 
 	Actions_Path_walk ();
 
-	Actions_Junction_prepare ();
+	Actions_Junction_begin ();
 	Actions_Junction_stopAt (1);
 
 	Actions_Path_walk ();
 }
+*/
