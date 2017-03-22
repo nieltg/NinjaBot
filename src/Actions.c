@@ -1,4 +1,5 @@
-#pragma config(StandardModel, "EV3_REMBOT")
+#ifndef ACTIONS
+#define ACTIONS
 
 /* Junction. */
 
@@ -160,7 +161,7 @@ TLegoColors path_walk ()
 
 /* Main. */
 
-task main ()
+/*task main ()
 {
 	path_begin ();
 
@@ -184,3 +185,4 @@ task main ()
 
 	path_walk ();
 }
+*/
