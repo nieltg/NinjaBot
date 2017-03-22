@@ -1,8 +1,13 @@
 #pragma config(StandardModel, "EV3_REMBOT")
 
-/* Junction. */
+/* Actions::Junction */
 
-void junction_prepare ()
+/**
+ * @brief Prepare for more actions on junction.
+ *
+ * Implementation: Move robot forward a little.
+ */
+void Actions_Junction_prepare ()
 {
 	// Centerize.
 
@@ -17,9 +22,23 @@ void junction_prepare ()
 	motor[rightMotor] = 0;
 }
 
-int junction_count ()
+/**
+ * @brief Count available paths from a junction.
+ * @returns  Count of available paths.
+ *
+ * %Actions_Junction_prepare must be called before calling this function.
+ * Implementation: Rotate 360 degrees and count for black-white edges.
+ */
+int Actions_Junction_count ()
 {
-	// Prepare rotation.
+	// Prepare edge detector.
+
+	bool is_black = false;
+
+	if (getColorName (colorSensor) == colorBlack)
+		is_black = true;
+
+	// Rotate 360 degrees.
 
 	wait10Msec (1);
 
@@ -28,21 +47,16 @@ int junction_count ()
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 0;
 
-	// Prepare edge detector.
-
-	bool is_black = false;
-
-	if (getColorName (colorSensor) == colorBlack)
-		is_black = true;
-
-	// Count black-white edge.
-
 	int cnt = 0;
 
-	while (getGyroDegrees (gyroSensor) < 359)
+	while (getGyroDegrees (gyroSensor) < 360)
 	{
+		// Detect black-white edge.
+
 		if (getColorName (colorSensor) != colorBlack)
 		{
+			// Count edges.
+
 			if (is_black)
 				cnt++;
 
@@ -58,9 +72,16 @@ int junction_count ()
 	return cnt;
 }
 
-void junction_stop_at (int val)
+/**
+ * @brief Rotate and stop at specified way from a junction.
+ * @param _id  Way number.
+ *
+ * %Actions_Junction_prepare must be called before calling this function.
+ * Implementation: Rotate 170 degrees then stop at specified black-white edges.
+ */
+void Actions_Junction_stopAt (int _id)
 {
-	// Rotate 180 degree.
+	// Rotate 170 degree.
 
 	wait10Msec (1);
 
@@ -74,14 +95,14 @@ void junction_stop_at (int val)
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
 
-	// Prepare detector.
+	// Prepare edge detector.
 
 	bool is_black = false;
 
 	if (getColorName (colorSensor) == colorBlack)
 		is_black = true;
 
-	// Scan edges.
+	// Rotate 360 degrees.
 
 	int cnt = 0;
 
@@ -94,13 +115,15 @@ void junction_stop_at (int val)
 
 	while (getGyroDegrees (gyroSensor) < 360)
 	{
+		// Detect black-white edge.
+
 		if (getColorName (colorSensor) != colorBlack)
 		{
 			if (is_black)
 			{
-				/* Edge is detected. */
+				/* Stop if it is specified edge. */
 
-				if (cnt++ >= val)
+				if (cnt++ >= _id)
 					break;
 			}
 
@@ -114,22 +137,33 @@ void junction_stop_at (int val)
 	motor[rightMotor] = 0;
 }
 
-/* Path. */
+/* Actions::Path */
 
-void path_begin ()
+/**
+ * @brief Begin the journey.
+ *
+ * Implementation: Search for blue dot.
+ */
+void Actions_Path_begin ()
 {
-	// Search for blue dot.
+	// Walk straight.
 
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 30;
 
+	// Stop at blue.
+
 	while (getColorName (colorSensor) != colorBlue);
 }
 
-TLegoColors path_walk ()
+/**
+ * @brief Walk through until the robot reaches a colored tile.
+ * @return  Colored tile the robot discovered.
+ *
+ * Implementation: Walk through and stop if color sensor detect anycolor.
+ */
+TLegoColors Actions_Path_walk ()
 {
-	bool left_dominant = true;
-
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 20;
 
@@ -151,7 +185,7 @@ TLegoColors path_walk ()
 		else
 			return col;
 
-		delay (10);
+		delay (1);
 	}
 
 	motor[leftMotor]  = 0;
@@ -162,25 +196,65 @@ TLegoColors path_walk ()
 
 task main ()
 {
-	path_begin ();
+	Actions_Path_begin ();
 
-	junction_prepare ();
-	junction_stop_at (0);
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (0);
 
-	path_walk ();
+	Actions_Path_walk ();
 
-	junction_prepare ();
-	junction_stop_at (1);
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
 
-	path_walk ();
+	Actions_Path_walk ();
 
-	junction_prepare ();
-	junction_stop_at (0);
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (0);
 
-	path_walk ();
+	Actions_Path_walk ();
 
-	junction_prepare ();
-	junction_stop_at (1);
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
 
-	path_walk ();
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (0);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (0);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (0);
+
+	Actions_Path_walk ();
+
+	Actions_Junction_prepare ();
+	Actions_Junction_stopAt (1);
+
+	Actions_Path_walk ();
 }
