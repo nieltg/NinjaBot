@@ -32,7 +32,7 @@ task main() {
 		int currentJunction = Queue_pop(&bfsQueue);
 		writeDebugStreamLine("Current junction: %d.", currentJunction);
 
-		TLegoColors junctionColor = Robot_getColor();
+		TLegoColors junctionColor = robot_getColor();
 
 		if (junctionColor == colorYellow) {
 			junctionTable[currentJunction].type = JUNCTION_DESTINATION;

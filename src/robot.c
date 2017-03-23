@@ -1,6 +1,36 @@
 #ifndef ROBOT
 #define ROBOT
 
+TLegoColors robot_getColor ()
+{
+	TLegoColors col = getColorName (colorSensor);
+
+	switch (col)
+	{
+	case colorBlack:
+	case colorWhite:
+		return col;
+	}
+
+	int h = getColorHue (colorSensor);
+
+	if ((h >= 331) || (h <= 40))
+		return colorRed;
+	else
+	if ((h >= 166) && (h <= 260))
+		return colorBlue;
+	else
+	if ((h >= 71) && (h <= 165))
+		return colorGreen;
+	else
+	if ((h >= 41) && (h <= 70))
+		return colorYellow;
+
+	writeDebugStreamLine ("Unknown! Hue: %d", h);
+
+	return colorNone;
+}
+
 void Robot_putOutFire() {
 	// TODO
 	delay(3000);
@@ -63,7 +93,7 @@ int Robot_countPath ()
 
 	bool is_black = false;
 
-	if (getColorName (colorSensor) == colorBlack)
+	if (robot_getColor () == colorBlack)
 		is_black = true;
 
 	// Rotate 360 degrees.
@@ -81,7 +111,7 @@ int Robot_countPath ()
 	{
 		// Detect black-white edge.
 
-		if (getColorName (colorSensor) != colorBlack)
+		if (robot_getColor () != colorBlack)
 		{
 			// Count edges.
 
@@ -116,9 +146,9 @@ void Robot_turnToPath(int path)
 	motor[rightMotor] = 0;
 
 	// Clear 0th path (black -> white)
-	while (getColorName (colorSensor) != colorBlack);
+	while (robot_getColor () != colorBlack);
 	delay (50);
-	while (getColorName (colorSensor) != colorWhite);
+	while (robot_getColor () != colorWhite);
 	writeDebugStreamLine("Passed 0th path...");
 
 	int risingEdgeCount = 0;
@@ -126,9 +156,9 @@ void Robot_turnToPath(int path)
 	while (getGyroDegrees(gyroSensor) < 360 && risingEdgeCount < path) {
 		delay (50);
 		// white -> black
-		while (getColorName (colorSensor) != colorWhite);
+		while (robot_getColor () != colorWhite);
 		delay (50);
-		while (getColorName (colorSensor) != colorBlack);
+		while (robot_getColor () != colorBlack);
 		risingEdgeCount++;
 		writeDebugStreamLine("Passing path...");
 	}
@@ -153,7 +183,7 @@ void Robot_begin ()
 
 	// Stop at blue.
 
-	while (getColorName (colorSensor) != colorBlue) {}
+	while (robot_getColor () != colorBlue) {}
 }
 
 /**
@@ -190,10 +220,6 @@ TLegoColors Robot_followLineToJunction()
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
-}
-
-TLegoColors Robot_getColor() {
-	return getColorName(colorSensor);
 }
 
 /* Main. */
