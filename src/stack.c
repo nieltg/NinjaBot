@@ -22,12 +22,13 @@ bool Stack_isFull(Stack *s) {
 }
 
 bool Stack_isEmpty(Stack *s) {
-	return s->size == 0;
+	return s->size <= 0;
 }
 
 int Stack_top(Stack *s) {
 	if (s->size > 0) {
-		return s->data[s->size - 1];
+		int lastIndex = s->size - 1;
+		return s->data[lastIndex];
 	} else {
 		return STACK_EMPTY_VALUE;
 	}
@@ -42,16 +43,18 @@ int Stack_get(Stack *s, int i) {
 }
 
 void Stack_push(Stack *s, int value) {
-	if (!Stack_isFull(q)) {
-		s->data[s->size] = value;
-		s->size++;
+	if (!Stack_isFull(s)) {
+		int newIndex = s->size;
+		s->data[newIndex] = value;
+		(s->size)++;
 	}
 }
 
 int Stack_pop(Stack *s) {
 	if (s->size > 0) {
-		int res = s->data[s->size - 1];
-		s->size--;
+		int lastIndex = s->size - 1;
+		int res = s->data[lastIndex];
+		(s->size)--;
 		return res;
 	} else {
 		return STACK_EMPTY_VALUE;

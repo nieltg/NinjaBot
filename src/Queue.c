@@ -2,7 +2,7 @@
 #define QUEUE
 
 #define MAX_QUEUE_SIZE 100
-#define EMPTY_QUEUE_VALUE 0
+#define QUEUE_EMPTY_VALUE 0
 
 typedef struct {
 	int data[MAX_QUEUE_SIZE];
@@ -31,28 +31,31 @@ bool Queue_isEmpty(Queue *q) {
 	return q->head == q->tail;
 }
 
-int Queue_front(Queue *q) {
-	if (q->head != q->tail) {
-		return q->data[q->head];
-	} else {
-		return EMPTY_QUEUE_VALUE;
-	}
-}
-
 void Queue_push(Queue *q, int value) {
 	if (!Queue_isFull(q)) {
-		q->data[q->tail] = value;
+		int tail = q->tail;
+		q->data[tail] = value;
 		q->tail = (q->tail + 1) % MAX_QUEUE_SIZE;
 	}
 }
 
+int Queue_front(Queue *q) {
+	if (!Queue_isEmpty(q)) {
+		int head = q->head;
+		return q->data[head];
+	} else {
+		return QUEUE_EMPTY_VALUE;
+	}
+}
+
 int Queue_pop(Queue *q) {
-	if (q->head != q->tail) {
-		int res = q->data[q->head];
+	if (!Queue_isEmpty(q)) {
+		int head = q->head;
+		int res = q->data[head];
 		q->head = (q->head + 1) % MAX_QUEUE_SIZE;
 		return res;
 	} else {
-		return EMPTY_QUEUE_VALUE;
+		return QUEUE_EMPTY_VALUE;
 	}
 }
 
