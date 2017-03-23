@@ -1,12 +1,6 @@
 #pragma config(StandardModel, "EV3_REMBOT")
 
-/*
-	BFS
-	Assumes no cycle is present.
-*/
-
 #include "stack.c"
-#include "queue.c"
 #include "junction.c"
 #include "robot.c"
 
@@ -16,7 +10,7 @@ void goToJunction(int currentJunction, int nextJunction);
 
 Junction junctionTable[JUNCTION_TABLE_SIZE];
 int junctionCount;
-Queue bfsQueue;
+Stack dfsStack;
 
 task main() {
 
@@ -28,13 +22,13 @@ task main() {
 	Junction_set(&junctionTable[0], JUNCTION_START, 1, 0, 0);
 	Junction_set(&junctionTable[0], JUNCTION_INTERSECTION, 0, 0, 0);
 	junctionCount = 2;
-	Queue_init(&bfsQueue);
-	Queue_push(&bfsQueue, 1);
+	Stack_init(&dfsStack);
+	Stack_push(&dfsStack, 1);
 
-	while (!Queue_isEmpty(&bfsQueue)) {
+	while (!Stack_isEmpty(&dfsStack)) {
 		// Initial robot state at the beginning of the loop: color sensor touching junction (colored segment)
 
-		int currentJunction = Queue_pop(&bfsQueue);
+		int currentJunction = Stack_pop(&dfsStack);
 		writeDebugStreamLine("Current junction: %d.", currentJunction);
 
 		TLegoColors junctionColor = Robot_getColor();
@@ -44,8 +38,8 @@ task main() {
 			foundFire = true;
 			writeDebugStreamLine("Found fire.");
 			Robot_putOutFire();
-			while (!Queue_isEmpty(&bfsQueue)) {
-				Queue_pop(&bfsQueue);
+			while (!Stack_isEmpty(&dfsStack)) {
+				Stack_pop(&dfsStack);
 			}
 
 		} else if (junctionColor == colorRed || junctionColor == colorBlue) {
@@ -64,7 +58,7 @@ task main() {
 			for (int direction = 1; direction < junctionTable[currentJunction].pathCount; direction++) {
 				junctionTable[junctionCount].ancestor = currentJunction;
 				junctionTable[junctionCount].ancestorPath = direction;
-				Queue_push(&bfsQueue, junctionCount);
+				Stack_push(&dfsStack, junctionCount);
 				writeDebugStreamLine("Pushed %d to queue.", junctionCount);
 				junctionCount++;
 			}
@@ -75,7 +69,7 @@ task main() {
 		}
 
 		// If there is still another unvisited junction, go there. Otherwise, go back to start.
-		int nextJunction = Queue_isEmpty(&bfsQueue) ? 0 : Queue_front(&bfsQueue);
+		int nextJunction = Stack_isEmpty(&dfsStack) ? 0 : Stack_top(&dfsStack);
 		writeDebugStreamLine("Go from %d to %d.", currentJunction, nextJunction);
 		goToJunction(currentJunction, nextJunction);
 	}
