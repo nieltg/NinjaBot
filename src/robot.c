@@ -12,7 +12,7 @@ void Robot_reversePrepare() {
 	motor[leftMotor]  = -30;
 	motor[rightMotor] = -30;
 
-	delay (600);
+	delay (650);
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
@@ -44,7 +44,7 @@ void Robot_prepare ()
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 30;
 
-	delay (800);
+	delay (850);
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
@@ -157,7 +157,7 @@ void Robot_begin ()
 }
 
 /**
- * @brief Walk through until the robot reaches a colored tile.
+ * @brief Follow the left edge of a line until the robot reaches a colored tile.
  * @return  Colored tile the robot discovered.
  *
  * Implementation: Walk through and stop if color sensor detect anycolor.
@@ -173,7 +173,7 @@ TLegoColors Robot_followLineToJunction()
 
 		if (col == colorBlack)
 		{
-			motor[leftMotor]  = 10;
+			motor[leftMotor]  = -20;
 			motor[rightMotor] = 30;
 		}
 		else
@@ -195,74 +195,5 @@ TLegoColors Robot_followLineToJunction()
 TLegoColors Robot_getColor() {
 	return getColorName(colorSensor);
 }
-
-/* Main. */
-
-/*
-task main ()
-{
-	Robot_prepare ();
-
-	Robot_prepare ();
-	Robot_turnToPath (0);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (0);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (0);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (0);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (0);
-
-	Robot_followLineToJunction ();
-
-	Robot_prepare ();
-	Robot_turnToPath (1);
-
-	Robot_followLineToJunction ();
-}
-*/
 
 #endif

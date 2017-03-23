@@ -1,3 +1,8 @@
+/*
+	BFS
+	Assumes no cycle is present.
+*/
+
 #pragma config(StandardModel, "EV3_REMBOT")
 
 #include "stack.c"
@@ -164,17 +169,3 @@ void goToJunction(int currentJunction, int nextJunction) {
 	}
 	// State: robot is at next junction, with color sensor on colored segment
 }
-
-/*
-void Robot_begin();
-void Robot_prepare();
-void Robot_reversePrepare();
-TLegoColors Robot_getColor();
-int Robot_countPath();
-void Robot_turnToPath(int pathDirection);
-void Robot_uTurn();
-void Robot_putOutFire();
-void Robot_displayText(string text);
-
-Assumes no cycle
- */
