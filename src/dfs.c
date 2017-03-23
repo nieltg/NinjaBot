@@ -6,7 +6,15 @@
 
 #define JUNCTION_TABLE_SIZE 100
 
+#define TITLE_LINE 1
+#define MAIN_INFO_LINE 3
+#define STACK_LINE 4
+#define ACTION_LINE 5
+#define TRACE_DESCRIPTION_LINE 6
+#define TRACE_VALUES_LINE 7
+
 void goToJunction(int currentJunction, int nextJunction);
+void displayStack(Stack *s, int line);
 
 Junction junctionTable[JUNCTION_TABLE_SIZE];
 int junctionCount;
@@ -14,8 +22,13 @@ Stack dfsStack;
 
 task main() {
 
+	displayCenteredTextLine(TITLE_LINE, "Stima - DFS");
+	displayTextLine(MAIN_INFO_LINE, "Starting...");
+
+	writeDebugStreamLine("Starting...");
 	bool foundFire = false;
 	Robot_begin();
+	displayTextLine(MAIN_INFO_LINE, "Going to first junction...");
 	Robot_prepare();
 	Robot_followLineToJunction();
 
@@ -31,12 +44,16 @@ task main() {
 		int currentJunction = Stack_pop(&dfsStack);
 		writeDebugStreamLine("Current junction: %d.", currentJunction);
 
+		displayTextLine(MAIN_INFO_LINE, "Current DFS junction: %d", currentJunction);
+		displayStack(&dfsStack, STACK_LINE);
+
 		TLegoColors junctionColor = Robot_getColor();
 
 		if (junctionColor == colorYellow) {
 			junctionTable[currentJunction].type = JUNCTION_DESTINATION;
 			foundFire = true;
 			writeDebugStreamLine("Found fire.");
+			displayTextLine(ACTION_LINE, "Found fire!");
 			Robot_putOutFire();
 			while (!Stack_isEmpty(&dfsStack)) {
 				Stack_pop(&dfsStack);
@@ -59,7 +76,8 @@ task main() {
 				junctionTable[junctionCount].ancestor = currentJunction;
 				junctionTable[junctionCount].ancestorPath = direction;
 				Stack_push(&dfsStack, junctionCount);
-				writeDebugStreamLine("Pushed %d to queue.", junctionCount);
+				writeDebugStreamLine("Pushed %d to stack.", junctionCount);
+				displayStack(&dfsStack, STACK_LINE);
 				junctionCount++;
 			}
 
@@ -71,12 +89,14 @@ task main() {
 		// If there is still another unvisited junction, go there. Otherwise, go back to start.
 		int nextJunction = Stack_isEmpty(&dfsStack) ? 0 : Stack_top(&dfsStack);
 		writeDebugStreamLine("Go from %d to %d.", currentJunction, nextJunction);
+		displayTextLine(ACTION_LINE, "Go from %d to %d.", currentJunction, nextJunction);
 		goToJunction(currentJunction, nextJunction);
 	}
 
 	// TODO: Robot move backward until back at start box, or color sensor on blue segment.
 	// Done! Robot is back at the starting point, ready for another run.
 	writeDebugStreamLine("Finished!");
+	displayTextLine(5, "Finished!");
 }
 
 void goToJunction(int currentJunction, int nextJunction) {
@@ -97,6 +117,8 @@ void goToJunction(int currentJunction, int nextJunction) {
 		traceJunction = junctionTable[traceJunction].ancestor;
 	}
 	Stack_push(&currentTrace, 0);
+	displayTextLine(TRACE_DESCRIPTION_LINE, "Path from %d to start:", currentJunction);
+	displayStack(&currentTrace, TRACE_VALUES_LINE);
 
 	// Trace junctions visited from next junction to start junction
 	traceJunction = nextJunction;
@@ -162,4 +184,16 @@ void goToJunction(int currentJunction, int nextJunction) {
 		}
 	}
 	// State: robot is at next junction, with color sensor on colored segment
+}
+
+void displayStack(Stack *s, int line) {
+	int i;
+	string disp, output;
+	output = "";
+	for (i = 0; i < Stack_size(s); i++) {
+		disp = Stack_get(s, i);
+		output += " ";
+		output +=  disp;
+	}
+	displayTextLine(line, "Stack: %s", output);
 }
