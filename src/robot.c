@@ -14,7 +14,7 @@ TLegoColors Robot_getColor()
 
 	int h = getColorHue (colorSensor);
 
-	if ((h >= 331) || (h <= 40))
+	if ((h >= 331) || (h <= 20))
 		return colorRed;
 	else
 	if ((h >= 166) && (h <= 260))
@@ -23,7 +23,7 @@ TLegoColors Robot_getColor()
 	if ((h >= 71) && (h <= 165))
 		return colorGreen;
 	else
-	if ((h >= 41) && (h <= 70))
+	if ((h >= 21) && (h <= 70))
 		return colorYellow;
 
 	writeDebugStreamLine ("Unknown! Hue: %d", h);
