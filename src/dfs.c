@@ -1,5 +1,10 @@
 #pragma config(StandardModel, "EV3_REMBOT")
 
+/*
+	DFS
+	Assumes no cycle is present.
+*/
+
 #include "stack.c"
 #include "junction.c"
 #include "robot.c"
@@ -10,8 +15,8 @@
 #define MAIN_INFO_LINE 3
 #define STACK_LINE 4
 #define ACTION_LINE 5
-#define TRACE_DESCRIPTION_LINE 6
-#define TRACE_VALUES_LINE 7
+#define TRACE_DESCRIPTION_LINE 7
+#define TRACE_VALUES_LINE 8
 
 void goToJunction(int currentJunction, int nextJunction);
 void displayStack(Stack *s, int line);
@@ -96,7 +101,7 @@ task main() {
 	// TODO: Robot move backward until back at start box, or color sensor on blue segment.
 	// Done! Robot is back at the starting point, ready for another run.
 	writeDebugStreamLine("Finished!");
-	displayTextLine(5, "Finished!");
+	displayTextLine(ACTION_LINE, "Finished!");
 }
 
 void goToJunction(int currentJunction, int nextJunction) {
@@ -195,5 +200,5 @@ void displayStack(Stack *s, int line) {
 		output += " ";
 		output +=  disp;
 	}
-	displayTextLine(line, "Stack: %s", output);
+	displayTextLine(line, "Stack:%s", output);
 }

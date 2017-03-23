@@ -48,6 +48,15 @@ int Queue_front(Queue *q) {
 	}
 }
 
+int Queue_get(Queue *q, int i) {
+	if (i >= 0 && i < Queue_size(q)) {
+		int idx = (q->head + i) % MAX_QUEUE_SIZE;
+		return q->data[idx];
+	} else {
+		return QUEUE_EMPTY_VALUE;
+	}
+}
+
 int Queue_pop(Queue *q) {
 	if (!Queue_isEmpty(q)) {
 		int head = q->head;
