@@ -32,9 +32,33 @@ TLegoColors Robot_getColor()
 }
 
 void Robot_putOutFire() {
-	// TODO
 	writeDebugStreamLine("Putting out fire...");
-	delay(3000);
+
+	resetMotorEncoder (motorA);
+
+	// Lower robot arm
+
+	setMotorTarget (motorA, -50, 20);
+	waitUntilMotorStop (motorA);
+	delay (250);
+
+	for (int i = 0; i < 5; i++)
+	{
+		setMotorTarget (motorA, 50, 80);
+		waitUntilMotorStop (motorA);
+		delay (50);
+
+		setMotorTarget (motorA, -50, 80);
+		waitUntilMotorStop (motorA);
+		delay (50);
+	}
+
+	// Reset robot arm
+
+	delay (250);
+	setMotorTarget (motorA, 0, 20);
+	waitUntilMotorStop (motorA);
+
 	writeDebugStreamLine("Fire extinguished!");
 }
 
