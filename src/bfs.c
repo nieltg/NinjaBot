@@ -18,6 +18,8 @@
 #define ACTION_LINE 5
 #define TRACE_DESCRIPTION_LINE 7
 #define TRACE_VALUES_LINE 8
+#define TURN_DESCRIPTION_LINE 9
+#define TURN_VALUES_LINE 10
 
 void goToJunction(int currentJunction, int nextJunction);
 void displayStack(Stack *s, int line);
@@ -155,6 +157,10 @@ void goToJunction(int currentJunction, int nextJunction) {
 			int ancestorPath = junctionTable[nextTraceJunction].ancestorPath;
 			Stack_push(&returnInstructions, pathCount - ancestorPath);
 		}
+		if (nextJunction == 0) {
+			displayTextLine(TURN_DESCRIPTION_LINE, "Turns from %d to start:", currentJunction);
+			displayStack(&returnInstructions, TURN_VALUES_LINE);
+		}
 
 		// Go back to lowest common ancestor junction
 		Robot_prepare();
@@ -164,7 +170,9 @@ void goToJunction(int currentJunction, int nextJunction) {
 			Robot_followLineToJunction();
 			Robot_prepare();
 			writeDebugStreamLine("Turning to path %d...", Stack_get(&returnInstructions, i));
-			Robot_turnToPath(Stack_get(&returnInstructions, i));
+			if (nextJunction != 0 || i < Stack_size(&returnInstructions) - 1) {
+				Robot_turnToPath(Stack_get(&returnInstructions, i));
+			}
 		}
 		Robot_uTurn();
 
