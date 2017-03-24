@@ -1,4 +1,6 @@
 #pragma config(StandardModel, "EV3_REMBOT")
+#pragma DebuggerWindows("debugStream")
+#pragma DebuggerWindows("ev3LCDScreen")
 
 /*
 	DFS
