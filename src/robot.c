@@ -77,10 +77,12 @@ void Robot_reversePrepare() {
 void Robot_uTurn() {
 	wait10Msec (1);
 
+	resetGyro (gyroSensor);
+
 	motor[leftMotor]  = 30;
 	motor[rightMotor] = 0;
 
-	delay (2950);
+	while (getGyroDegrees (gyroSensor) < 180) {}
 
 	motor[leftMotor]  = 0;
 	motor[rightMotor] = 0;
@@ -172,9 +174,9 @@ void Robot_turnToPath(int path)
 	motor[rightMotor] = 0;
 
 	// Clear 0th path (black -> white)
-	while (Robot_getColor() != colorBlack);
+	while (Robot_getColor() != colorBlack) {}
 	delay (50);
-	while (Robot_getColor() != colorWhite);
+	while (Robot_getColor() != colorWhite) {}
 	writeDebugStreamLine("Passed 0th path...");
 
 	int risingEdgeCount = 0;
@@ -182,9 +184,9 @@ void Robot_turnToPath(int path)
 	while (getGyroDegrees(gyroSensor) < 360 && risingEdgeCount < path) {
 		delay (50);
 		// white -> black
-		while (Robot_getColor() != colorWhite);
+		while (Robot_getColor() != colorWhite) {}
 		delay (50);
-		while (Robot_getColor() != colorBlack);
+		while (Robot_getColor() != colorBlack) {}
 		risingEdgeCount++;
 		writeDebugStreamLine("Passing path...");
 	}
