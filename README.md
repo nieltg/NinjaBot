@@ -1,38 +1,31 @@
 # NINJABOT by S(eh)arijadi
-## DFS & BFS in RobotC
 
-Welcome to the virtual world of our NINJABOT!
+[![YouTube](https://img.youtube.com/vi/nBVh1xvl8Nw/0.jpg)](https://www.youtube.com/watch?v=nBVh1xvl8Nw)
+
+Welcome to the virtual world of our **NINJABOT**! **NINJABOT** is an example of BFS and DFS algorithm usage in **RobotC**.
+
 Developed by:
-- 13515001 Jonathan Christopher
-- 13515002 Wenny Yustalim
-- 13515071 Daniel Pintara
+- 13515001 Jonathan Christopher ([nathanchrs](https://github.com/nathanchrs))
+- 13515002 Wenny Yustalim ([wennyyustalim](https://github.com/wennyyustalim))
+- 13515071 Daniel Pintara ([nieltg](https://github.com/nieltg))
 
-This document contains useful information.
+## System Requirements
 
-CONTENTS
-1. SYSTEM REQUIREMENTS
-2. RUN THE PROGRAM
-3. CONTACT INFORMATION
+**NINJABOT** uses and requires **Windows**. Tools required:
+- [RobotC Lego Mindstorm EV3](http://robotc.net/download/lego/)
+- [RVW Level Builder](http://robotvirtualworlds.com/levelbuilder)
+- [Virtual Brick](http://robotvirtualworlds.com/virtualbrick)
 
-###1. SYSTEM REQUIREMENTS
-NINJABOT uses and requires Windows based OS
-Tools required:
-- RobotC Lego Mindstorm EV3
-- RVW Level Builder
-- Virtual Brick
+## Run the Program
 
-###2. RUN THE PROGRAM
-- Open RobotC Lego Mindstorm EV3
-- Open existing programs or write the magic down directly on the app
-- Compile the program and download it to the robot
-- RVW Level Builder will automatically appear
-- Build the levels as testcases
-- Click start level
-- Voila! Our NINJABOT is ready to run the track
+- Open **RobotC Lego Mindstorm EV3**.
+- Open existing programs or write the magic down directly on the app.
+- Compile the program and download it to the robot.
+- **RVW Level Builder** will automatically appear.
+- Build the levels as testcases.
+- Click start level.
+- Voila! Our **NINJABOT** is ready to run the track.
 
-### 3. CONTACT INFORMATION
-- Jonathan Christopher : 13515001@std.stei.itb.ac.id
-- Wenny Yustalim : 13515002@std.stei.itb.ac.id
-- Daniel Pintara : 13515071@std.stei.itb.ac.id
+## Credits
 
-Special thanks to github.com
+Special thanks to [github.com](https://github.com) for hosting our project.
