@@ -1,6 +1,6 @@
 # NINJABOT by S(eh)arijadi
 
-[![YouTube](https://media.giphy.com/media/bEUCxSg90GBUyvoZZ6/giphy.gif)](https://www.youtube.com/watch?v=nBVh1xvl8Nw)
+[![YouTube](doc/video.gif)](https://www.youtube.com/watch?v=nBVh1xvl8Nw)
 
 Welcome to the virtual world of our **NINJABOT**! **NINJABOT** is an example of BFS and DFS algorithm usage in **RobotC**.
 
